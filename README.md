@@ -7,16 +7,12 @@ A modern and fully responsive **Real Estate Platform** built using the **MERN st
 
 ## 🚀 Features
 
-✅ **User Authentication** (Sign up, Login, Logout)  
-✅ **Property Listings** (Add, Update, Delete)  
+✅ **User Authentication** (Sign up, Login, Logout)   
 ✅ **Advanced Property Search & Filters**  
 ✅ **Google Maps & Location Integration**  
-✅ **Image Uploads for Properties**  
-✅ **Admin Dashboard for Managing Listings**  
+✅ **Image Uploads for Properties** 
 ✅ **Favorite & Wishlist for Properties**  
 ✅ **Messaging System Between Buyers & Sellers**  
-✅ **Secure Payments & Subscription Plans**  
-✅ **SEO Optimized & Fast Performance**  
 
 ---
 
