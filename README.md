@@ -104,10 +104,6 @@ Create a `.env` file in the `/server` folder with the following variables:
 ```
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
 ### **4️⃣ Start the Development Servers**
@@ -128,13 +124,11 @@ npm start
 
 | Method | Route                   | Description                     | Auth Required |
 |--------|--------------------------|---------------------------------|--------------|
-| `POST` | `/api/auth/register`     | Register a new user             | ❌ |
-| `POST` | `/api/auth/login`        | User login                      | ❌ |
-| `GET`  | `/api/properties`        | Get all properties              | ❌ |
-| `POST` | `/api/properties`        | Create a new property listing   | ✅ |
-| `PUT`  | `/api/properties/:id`    | Update property details         | ✅ |
-| `DELETE` | `/api/properties/:id`  | Delete a property listing       | ✅ |
-| `POST` | `/api/payment`           | Process Stripe payment          | ✅ |
+| `POST` | `/api/auth/register`     | Register a new user              | ✅ |
+| `POST` | `/api/auth/logout`       | User logout                      | ✅ |
+| `GET`  | `/api/notification`      | Get all noticication of chat     | ✅ |
+| `POST` | `/api/profilePosts`      | Create a new property listing    | ✅ |
+| `PUT`  | `/api/posts/:id`         | Update post                      | ✅ |
 
 ---
 
@@ -142,7 +136,6 @@ npm start
 
 ### **Frontend (React)**
 - **React Router** → For navigation
-- **Redux Toolkit** → State management
 - **Axios** → API requests
 - **Tailwind CSS** → Styling
 - **React Icons** → Icons for UI
@@ -152,9 +145,8 @@ npm start
 - **JWT (jsonwebtoken)** → Authentication
 - **Bcrypt.js** → Password hashing
 - **Multer** → File uploads
-- **Cloudinary** → Image storage
-- **Stripe** → Payment processing
 - **Express Validator** → Input validation
+- **Prisma** → used for database querying and migrations.
 
 ---
 
@@ -163,14 +155,12 @@ npm start
 ### **🏠 Home Page**
 ![Home Page](https://via.placeholder.com/800x400?text=Home+Page)
 
-### **🔍 Property Listings**
+### **🔍 Post Listings**
 ![Property Listings](https://via.placeholder.com/800x400?text=Property+Listings)
 
-### **📜 Property Details**
+### **📜 Post Details**
 ![Property Details](https://via.placeholder.com/800x400?text=Property+Details)
 
-### **👤 User Dashboard**
-![User Dashboard](https://via.placeholder.com/800x400?text=User+Dashboard)
 
 ---
 
@@ -185,7 +175,6 @@ Want to contribute? Follow these steps:
 
 ## 🛡 Security & Best Practices
 
-✔ Use **Helmet.js** for security headers  
 ✔ Validate user inputs using **Express Validator**  
 ✔ Secure passwords with **bcrypt.js**  
 ✔ Use **JWT Authentication** for secure API access  
