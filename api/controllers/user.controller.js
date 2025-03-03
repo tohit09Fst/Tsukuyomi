@@ -93,10 +93,13 @@ export const savePost = async (req, res) => {
     if (savedPost) {
       await prisma.savedPost.delete({
         where: {
-          id: savedPost.id,
+          userId_postId: {
+            userId: tokenUserId,
+            postId,
+          },
         },
       });
-      res.status(200).json({ message: "Post removed from saved list" });
+      return res.status(200).json({ message: "Post removed from saved list" });
     } else {
       await prisma.savedPost.create({
         data: {
@@ -104,39 +107,54 @@ export const savePost = async (req, res) => {
           postId,
         },
       });
-      res.status(200).json({ message: "Post saved" });
+      return res.status(200).json({ message: "Post saved" });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to delete users!" });
+    console.error("Error saving post:", err);
+    return res.status(500).json({ message: "Failed to save post!" });
   }
 };
 
 export const profilePosts = async (req, res) => {
-    const tokenUserId = req.userId;
-    try {
-      const userPosts = await prisma.post.findMany({
-        where: { userId: tokenUserId },
-      });
-  
-      const saved = await prisma.savedPost.findMany({
-        where: {
-          userId: tokenUserId,
-          NOT: { post: null }, // Ensuring only valid posts are included
+  const tokenUserId = req.userId;
+
+  try {
+    console.log("Token User ID:", tokenUserId);
+
+    // ✅ Get all posts created by the user
+    const userPosts = await prisma.post.findMany({
+      where: { userId: tokenUserId },
+    });
+
+    console.log("User Posts:", userPosts);
+
+    const savedPosts = await prisma.savedPost.findMany({
+      where: { userId: tokenUserId },
+      select: {
+        post: {
+          select: {
+            id: true,
+            title: true, // Include only the necessary fields
+            content: true,
+          },
         },
-        include: {
-          post: true,
-        },
-      });
-  
-      const savedPosts = saved.map((item) => item.post);
-      res.status(200).json({ userPosts, savedPosts });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ message: "Failed to get profile posts!" });
-    }
-  };
-  
+      },
+    });
+    
+    const validSavedPosts = savedPosts
+      .map(saved => saved.post)
+      .filter(post => post); // Removes null values safely
+    
+    return res.status(200).json({ userPosts, savedPosts: validSavedPosts });
+    
+
+  } catch (err) {
+    console.error("Error fetching profile posts:", err);
+    return res.status(500).json({ message: "Failed to get profile posts!" });
+  }
+};
+
+
 
 export const getNotificationNumber = async (req, res) => {
   const tokenUserId = req.userId;

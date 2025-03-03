@@ -27,9 +27,10 @@ export const getPosts = async (req, res) => {
   }
 };
 
+ 
+
 export const getPost = async (req, res) => {
   const id = req.params.id;
-
   try {
     const post = await prisma.post.findUnique({
       where: { id },
@@ -44,10 +45,6 @@ export const getPost = async (req, res) => {
       },
     });
 
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" }); // Handle missing post
-    }
-
     const token = req.cookies?.token;
 
     if (token) {
@@ -61,16 +58,14 @@ export const getPost = async (req, res) => {
               },
             },
           });
-          return res.status(200).json({ ...post, isSaved: saved ? true : false }); // ✅ Ensure response is returned here
+          res.status(200).json({ ...post, isSaved: saved ? true : false });
         }
-        return res.status(200).json({ ...post, isSaved: false }); // ✅ Move response inside the callback
       });
-    } else {
-      return res.status(200).json({ ...post, isSaved: false }); // ✅ Ensure only one response is sent
     }
+    res.status(200).json({ ...post, isSaved: false });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "Failed to get post" });
+    res.status(500).json({ message: "Failed to get post" });
   }
 };
 
