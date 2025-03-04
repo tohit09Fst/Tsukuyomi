@@ -11,7 +11,7 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = ["http://localhost:5173", "https://tsukuyomi-tau.vercel.app/"];
+const allowedOrigins = ["https://tsukuyomi-tau.vercel.app/"];
 
 app.use(cors({
     origin: (origin, callback) => {
